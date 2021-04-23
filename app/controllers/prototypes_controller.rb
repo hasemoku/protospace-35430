@@ -1,10 +1,8 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  before_action :set_prototype, only:[:show, :edit, :destroy]
-
-  before_action :move_to_index, except: [:index, :show]
+  before_action :set_prototype, only: [:show, :edit, :destroy]
+  before_action :move_to_index, only: [:update, :edit, :destroy]
 
   def index
     @prototypes = Prototype.all
