@@ -1,7 +1,7 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_prototype, only: [:show, :edit, :destroy]
+  before_action :set_prototype, only: [:show, :edit, :destroy, :update]
   before_action :move_to_index, only: [:update, :edit, :destroy]
 
   def index
@@ -20,7 +20,6 @@ class PrototypesController < ApplicationController
       render :new
     end
   end
-  
 
   def show
     @comment = Comment.new
@@ -31,10 +30,9 @@ class PrototypesController < ApplicationController
   end
 
   def update
-    prototype = Prototype.find(params[:id])
-    prototype.update(prototype_params)
-    if prototype.update(prototype_params)
-      redirect_to  edit_prototype_path(prototype.id)
+    @prototype.update(prototype_params)
+    if @prototype.update(prototype_params)
+      redirect_to prototype_path method: :show
     else
       render :edit
     end
